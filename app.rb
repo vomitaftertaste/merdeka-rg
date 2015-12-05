@@ -4,6 +4,7 @@ require 'unirest'
 require './secret.rb'
 
 hashtags = ['cat','dog']
+sleep_interval = 10 #seconds
 
 loop do
   puts 'Connecting to instagram...'
@@ -15,16 +16,14 @@ loop do
     puts "Searching for tag #{hashtag}..."
     media_feeds = client::tag_recent_media(hashtag)
     result_feeds = result_feeds | media_feeds
-    puts "Sleeping for 10 seconds..."
-    sleep(10)
+    puts "Sleeping for #{sleep_interval} seconds..."
+    sleep(sleep_interval)
   end
 
   # get latest timestamp
   latest_timestamp = (Unirest.get Secret.remote_url['tp'][:latest_timestamp_data]).body[0]['max_timestamp']
-
-  DB = Sequel.connect(Secret.db['local_mysql_hdr'])
-  merdekas = DB[:merdeka]
-
+  latest_timestamp = "0" if latest_timestamp.nil?
+  
   for feed in result_feeds do
     if feed.created_time <= latest_timestamp then
       puts "feed #{feed.id} is earlier #{feed.created_time} than the latest timestamp #{latest_timestamp}"
@@ -43,8 +42,8 @@ loop do
     puts response.body
   end
 
-  puts 'Sleep 5 minutes...'
-  sleep(300)
+  puts "Sleep #{sleep_interval} seconds..."
+  sleep(sleep_interval)
 end
 
 
