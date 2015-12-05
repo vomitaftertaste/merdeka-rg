@@ -36,7 +36,7 @@ loop do
     message = feed.caption['text']
     timestamp = feed.created_time
     image_url = feed.images.standard_resolution.url
-    hashtags = feed.tags.size > 1 ? feed.tags[1..-1].inject("#"+feed.tags[0]) {|res,el| "#{res} \##{el}" } : "\##{feed.tags[0]}"
+    hashtags = feed.tags.inject("") { |res,el| "#{res}\##{el} " }
     #merdekas.insert(message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: hashtags, instagram_id: instagram_id)
     response = Unirest.get Secret.remote_url['tp'][:post_data],
                             parameters: {message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: hashtags, instagram_id: instagram_id}
