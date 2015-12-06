@@ -3,7 +3,7 @@ require 'sequel'
 require 'unirest'
 require './secret.rb'
 
-hashtags = ['cat','dog']
+hashtags = ['ANTICORRUPTION']
 sleep_interval = 5 #seconds
 run_count = 0
 
@@ -36,10 +36,10 @@ loop do
     message = feed.caption['text']
     timestamp = feed.created_time
     image_url = feed.images.standard_resolution.url
-    hashtags = feed.tags.inject("") { |res,el| "#{res}\##{el} " }
+    feed_hashtags = feed.tags.inject("") { |res,el| "#{res}\##{el} " }
     #merdekas.insert(message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: hashtags, instagram_id: instagram_id)
     response = Unirest.get Secret.remote_url['tp'][:post_data],
-                            parameters: {message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: hashtags, instagram_id: instagram_id}
+                            parameters: {message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: feed_hashtags, instagram_id: instagram_id}
     puts response.body
   end
   run_count += 1
