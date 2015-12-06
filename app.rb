@@ -4,7 +4,8 @@ require 'unirest'
 require './secret.rb'
 
 hashtags = ['cat','dog']
-sleep_interval = 10 #seconds
+sleep_interval = 5 #seconds
+run_count = 0
 
 loop do
   puts 'Connecting to instagram...'
@@ -41,7 +42,8 @@ loop do
                             parameters: {message: message, imageUrl: image_url, timeStamp: timestamp, hashtag: hashtags, instagram_id: instagram_id}
     puts response.body
   end
-
+  run_count += 1
+  puts "Run count \##{run_count}"
   puts "Sleep #{sleep_interval} seconds..."
   sleep(sleep_interval)
 end
