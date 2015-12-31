@@ -54,19 +54,3 @@ loop do
   puts "Sleep #{sleep_interval} seconds..."
   sleep(sleep_interval)
 end
-
-# puts media_feeds
-#
-# domain = 'ftp.tienpingx2.96.lt'
-# username = 'u972812590'
-# password = 'thereisnospoon'
-#
-#
-# ftp = Net::FTP.new(domain)
-# ftp.passive = true
-# ftp.login(username, password)
-# ftp.chdir(path_on_server)
-# ftp.puttextfile(path_to_web_file)
-# ftp.close
-#
-# ftp.stor
